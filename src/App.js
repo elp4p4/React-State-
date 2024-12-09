@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ProfileComponent from "./components/ProfileComponent";
+import TimerComponent from "./components/TimerComponent";
 import "./App.css";
 
 class App extends Component {
@@ -20,12 +22,10 @@ class App extends Component {
       timeElapsed: 0,
     };
 
-    // Binding the toggle method
     this.toggleShow = this.toggleShow.bind(this);
   }
 
   componentDidMount() {
-    // Start the timer when the component mounts
     this.timer = setInterval(() => {
       this.setState((prevState) => ({
         timeElapsed: prevState.timeElapsed + 1,
@@ -34,7 +34,6 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    // Clean up the timer when the component unmounts
     clearInterval(this.timer);
   }
 
@@ -46,6 +45,7 @@ class App extends Component {
 
   render() {
     const { person, show, timeElapsed } = this.state;
+
     return (
       <div className="App">
         <h1>Person Profile</h1>
@@ -53,24 +53,8 @@ class App extends Component {
           {show ? "Hide Profile" : "Show Profile"}
         </button>
 
-        {show && (
-          <div className="profile">
-            <h2>{person.fullName}</h2>
-            <img src={person.imgSrc} alt={person.fullName} />
-            <p>
-            <strong>Bio:</strong>{person.bio.map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-            </p>
-
-            <p>
-              <strong>Profession:</strong> 
-            </p>
-            {person.profession}
-          </div>
-        )}
-
-          <strong><p>Time since mounted: {timeElapsed} seconds</p></strong>
+        {show && <ProfileComponent person={person} />}
+        <TimerComponent timeElapsed={timeElapsed} />
       </div>
     );
   }
